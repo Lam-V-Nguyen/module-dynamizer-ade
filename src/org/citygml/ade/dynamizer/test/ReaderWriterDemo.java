@@ -3,6 +3,8 @@ package org.citygml.ade.dynamizer.test;
 import java.io.File;
 import java.util.ServiceLoader;
 
+import org.citygml.ade.dynamizer.model.AbstractTimeseries;
+import org.citygml.ade.dynamizer.model.AtomicTimeseries;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml.ade.dynamizer.model.GMLTimePosition;
 import org.citygml4j.CityGMLContext;
@@ -16,6 +18,11 @@ import org.citygml4j.xml.io.CityGMLInputFactory;
 import org.citygml4j.xml.io.CityGMLOutputFactory;
 import org.citygml4j.xml.io.reader.CityGMLReader;
 import org.citygml4j.xml.io.writer.CityGMLWriter;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
 
 public class ReaderWriterDemo {
 
@@ -34,7 +41,7 @@ public class ReaderWriterDemo {
 		System.out.println("Reading the CityGML ADE dataset");
 
 		CityGMLInputFactory in = builder.createCityGMLInputFactory();
-		CityGMLReader reader = in.createCityGMLReader(new File("datasets/Dynamizer_LinkToSensor.gml"));
+		CityGMLReader reader = in.createCityGMLReader(new File("datasets/Dynamizer_AtomicTimeseries_DynamicDataTVP.gml"));
 
 		// unmarshal dataset into a CityModel
 		CityModel cityModel = (CityModel)reader.nextFeature();
@@ -46,19 +53,39 @@ public class ReaderWriterDemo {
 		// (citygml4j features + ADE features)
 
 		// note that we have to make the ADE context known to the 
-		// feature walker. Otherwise the ADE features will not be found.		
+		// feature walker. Otherwise the ADE features will not be found.
 		FeatureWalker walker = new FeatureWalker() {
 			public void visit(AbstractFeature abstractFeature) {
-				System.out.println(abstractFeature + ":" + abstractFeature.getId());
+				System.out.println(abstractFeature + " --> " + abstractFeature.getId());
 				if (abstractFeature instanceof Dynamizer) {
 					Dynamizer dynamizer = (Dynamizer) abstractFeature;
-					GMLTimePosition startTime = new GMLTimePosition();
+					
+					// make some changes to the original ADE data
+					GMLTimePosition startTime = dynamizer.getStartTime();
 					startTime.setValue("2000");
-					GMLTimePosition endTime = new GMLTimePosition();
+					GMLTimePosition endTime = dynamizer.getEndTime();
 					endTime.setValue("2020");
 					dynamizer.setAttributeRef("new XPath referencing another generic attribute");
 					dynamizer.setStartTime(startTime);
 					dynamizer.setEndTime(endTime);
+					
+					// print out the kvp entries retrieved from the TimeseriesML XML elements
+					AbstractTimeseries timeseries = dynamizer.getDynamicData().getTimeseries();
+					if (timeseries != null && timeseries instanceof AtomicTimeseries) {
+						Object dynamicDataTVP = ((AtomicTimeseries)timeseries).getDynamicDataTVP();
+						ElementNSImpl elementNSImpl = (ElementNSImpl)dynamicDataTVP;
+						Document document = elementNSImpl.getOwnerDocument();	
+						
+						System.out.println("Timeseries data of the dynamizer '" + dynamizer.getId() + "':");
+						NodeList kvps = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "point");
+						for (int i = 0; i < kvps.getLength(); i++) {
+							Node meaureTimeNode = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "time").item(i);
+							String measureTime = meaureTimeNode.getFirstChild().getNodeValue();
+							Node measureValueNode = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "value").item(i);
+							String measureValue = measureValueNode.getFirstChild().getNodeValue();
+							System.out.println(measureTime + " : " + measureValue);
+						}
+					}
 				}
 				super.visit(abstractFeature);
 			}
