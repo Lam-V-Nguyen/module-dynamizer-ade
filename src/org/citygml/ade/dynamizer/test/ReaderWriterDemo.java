@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ServiceLoader;
 
 import org.citygml.ade.dynamizer.model.Dynamizer;
+import org.citygml.ade.dynamizer.model.GMLTimePosition;
 import org.citygml4j.CityGMLContext;
 import org.citygml4j.builder.CityGMLBuilder;
 import org.citygml4j.model.citygml.ade.binding.ADEContext;
@@ -15,6 +16,8 @@ import org.citygml4j.xml.io.CityGMLInputFactory;
 import org.citygml4j.xml.io.CityGMLOutputFactory;
 import org.citygml4j.xml.io.reader.CityGMLReader;
 import org.citygml4j.xml.io.writer.CityGMLWriter;
+
+import net.opengis.gml.TimeIndeterminateValueType;
 
 public class ReaderWriterDemo {
 
@@ -51,7 +54,13 @@ public class ReaderWriterDemo {
 				System.out.println(abstractFeature + ":" + abstractFeature.getId());
 				if (abstractFeature instanceof Dynamizer) {
 					Dynamizer dynamizer = (Dynamizer) abstractFeature;
+					GMLTimePosition startTime = new GMLTimePosition();
+					startTime.setValue("2000");
+					GMLTimePosition endTime = new GMLTimePosition();
+					endTime.setValue("2020");
 					dynamizer.setAttributeRef("new XPath referencing another generic attribute");
+					dynamizer.setStartTime(startTime);
+					dynamizer.setEndTime(endTime);
 				}
 				super.visit(abstractFeature);
 			}
