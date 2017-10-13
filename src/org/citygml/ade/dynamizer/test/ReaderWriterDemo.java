@@ -3,6 +3,7 @@ package org.citygml.ade.dynamizer.test;
 import java.io.File;
 import java.util.ServiceLoader;
 
+import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml4j.CityGMLContext;
 import org.citygml4j.builder.CityGMLBuilder;
 import org.citygml4j.model.citygml.ade.binding.ADEContext;
@@ -32,7 +33,7 @@ public class ReaderWriterDemo {
 		System.out.println("Reading the CityGML ADE dataset");
 
 		CityGMLInputFactory in = builder.createCityGMLInputFactory();
-		CityGMLReader reader = in.createCityGMLReader(new File("datasets/CityGML_Rennes_Solar_Irradiation_Dynamizer.gml"));
+		CityGMLReader reader = in.createCityGMLReader(new File("datasets/CityGML_QEOP_LinkToSensor_Dynamizer.gml"));
 
 		// unmarshal dataset into a CityModel
 		CityModel cityModel = (CityModel)reader.nextFeature();
@@ -48,6 +49,10 @@ public class ReaderWriterDemo {
 		FeatureWalker walker = new FeatureWalker() {
 			public void visit(AbstractFeature abstractFeature) {
 				System.out.println(abstractFeature + ":" + abstractFeature.getId());
+				if (abstractFeature instanceof Dynamizer) {
+					Dynamizer dynamizer = (Dynamizer) abstractFeature;
+					dynamizer.setAttributeRef("new XPath referencing another generic attribute");
+				}
 				super.visit(abstractFeature);
 			}
 		}.useADEContexts(context.getADEContexts());

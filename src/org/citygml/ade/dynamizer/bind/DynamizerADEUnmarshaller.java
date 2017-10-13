@@ -27,7 +27,9 @@ import org.citygml.ade.dynamizer.model.TimeseriesProperty;
 import org.citygml4j.builder.jaxb.unmarshal.citygml.ade.ADEUnmarshallerHelper;
 import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
 import org.citygml4j.model.citygml.ade.binding.ADEUnmarshaller;
+import org.citygml4j.model.citygml.core.AbstractCityObject;
 import org.citygml4j.model.common.base.ModelObject;
+import org.citygml4j.model.gml.feature.FeatureProperty;
 import org.citygml4j.model.gml.xlink.XLinkActuate;
 import org.citygml4j.model.gml.xlink.XLinkShow;
 import org.citygml4j.model.gml.xlink.XLinkType;
@@ -159,6 +161,9 @@ public class DynamizerADEUnmarshaller implements ADEUnmarshaller {
 		if (src.isSetDynamicData())
 			dest.setDynamicData(unmarshalTimeseriesProperty(src.getDynamicData()));
 		
+		if (src.isSetLinkToSensor())
+			dest.setLinkToSensor(unmarshalSensorConnectionProperty(src.getLinkToSensor()));
+		
 		return dest;
 	}
 	
@@ -269,6 +274,7 @@ public class DynamizerADEUnmarshaller implements ADEUnmarshaller {
 		return dest;
 	}
 
+	@SuppressWarnings("unchecked")
 	public SensorConnection unmarshalSensorConnection(SensorConnectionType src) throws MissingADESchemaException {
 		SensorConnection dest = new SensorConnection();
 		
@@ -283,6 +289,9 @@ public class DynamizerADEUnmarshaller implements ADEUnmarshaller {
 		
 		if (src.isSetLinkToSensorML())
 			dest.setLinkToSensorML(src.getLinkToSensorML());
+		
+		if (src.isSetSensorLocation())
+			dest.setSensorLocation((FeatureProperty<AbstractCityObject>) helper.getGMLUnmarshaller().unmarshalFeatureProperty(src.getSensorLocation()));
 		
 		return dest;
 	}

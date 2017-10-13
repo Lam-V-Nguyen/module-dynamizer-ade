@@ -6,6 +6,7 @@ import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
 import org.citygml4j.model.citygml.core.AbstractCityObject;
 import org.citygml4j.model.common.association.Associable;
 import org.citygml4j.model.common.base.ModelObject;
+import org.citygml4j.model.gml.feature.FeatureProperty;
 import org.citygml4j.model.module.ade.ADEModule;
 
 public class SensorConnection implements Associable, ADEModelObject {
@@ -14,7 +15,7 @@ public class SensorConnection implements Associable, ADEModelObject {
 	private String serviceType;
 	private String linkToObservation;
 	private String linkToSensorML;
-	private AbstractCityObject sensorLocation;
+	private FeatureProperty<AbstractCityObject> sensorLocation;
 	private ModelObject parent;
 
 	public String getSensorId() {
@@ -65,7 +66,7 @@ public class SensorConnection implements Associable, ADEModelObject {
 		this.linkToSensorML = linkToSensorML;
 	}
 	
-	public AbstractCityObject getSensorLocation() {
+	public FeatureProperty<AbstractCityObject> getSensorLocation() {
 		return sensorLocation;
 	}
 	
@@ -73,7 +74,7 @@ public class SensorConnection implements Associable, ADEModelObject {
 		return sensorLocation != null;
 	}
 
-	public void setSensorLocation(AbstractCityObject sensorLocation) {
+	public void setSensorLocation(FeatureProperty<AbstractCityObject> sensorLocation) {
 		this.sensorLocation = sensorLocation;
 	}
 
@@ -102,6 +103,7 @@ public class SensorConnection implements Associable, ADEModelObject {
 		return copyTo(new SensorConnection(), copyBuilder);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object copyTo(Object target, CopyBuilder copyBuilder) {
 		SensorConnection copy = (target == null) ? new SensorConnection() : (SensorConnection)target;
@@ -119,7 +121,7 @@ public class SensorConnection implements Associable, ADEModelObject {
 			copy.setLinkToSensorML(copyBuilder.copy(linkToSensorML));
 		
 		if (isSetSensorLocation())
-			copy.setSensorLocation((AbstractCityObject)copyBuilder.copy(sensorLocation));
+			copy.setSensorLocation((FeatureProperty<AbstractCityObject>)copyBuilder.copy(sensorLocation));
 		
 		copy.unsetParent();
 		return copy;

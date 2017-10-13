@@ -2,7 +2,7 @@
 // Generated with ade-xjc - XML Schema binding compiler for CityGML ADEs, version 2.4.3+1
 // ade-xjc is part of the citygml4j project, see https://github.com/citygml4j
 // Any modifications to this file will be lost upon recompilation of the source
-// Generated: Wed Oct 11 16:43:16 CEST 2017
+// Generated: Fri Oct 13 11:47:35 CEST 2017
 //
 
 
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import net.opengis.citygml._2.AbstractCityObjectType;
+import net.opengis.gml.FeaturePropertyType;
 
 
 /**
@@ -30,7 +30,7 @@ import net.opengis.citygml._2.AbstractCityObjectType;
  *         &lt;element name="serviceType" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="linkToObservation" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="linkToSensorML" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
- *         &lt;element name="sensorLocation" type="{http://www.opengis.net/citygml/2.0}AbstractCityObjectType" minOccurs="0"/>
+ *         &lt;element name="sensorLocation" type="{http://www.opengis.net/gml}FeaturePropertyType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -57,7 +57,7 @@ public class SensorConnectionType {
     protected String linkToObservation;
     @XmlSchemaType(name = "anyURI")
     protected String linkToSensorML;
-    protected AbstractCityObjectType sensorLocation;
+    protected FeaturePropertyType sensorLocation;
 
     /**
      * Ruft den Wert der sensorID-Eigenschaft ab.
@@ -176,10 +176,10 @@ public class SensorConnectionType {
      * 
      * @return
      *     possible object is
-     *     {@link AbstractCityObjectType }
+     *     {@link FeaturePropertyType }
      *     
      */
-    public AbstractCityObjectType getSensorLocation() {
+    public FeaturePropertyType getSensorLocation() {
         return sensorLocation;
     }
 
@@ -188,10 +188,10 @@ public class SensorConnectionType {
      * 
      * @param value
      *     allowed object is
-     *     {@link AbstractCityObjectType }
+     *     {@link FeaturePropertyType }
      *     
      */
-    public void setSensorLocation(AbstractCityObjectType value) {
+    public void setSensorLocation(FeaturePropertyType value) {
         this.sensorLocation = value;
     }
 

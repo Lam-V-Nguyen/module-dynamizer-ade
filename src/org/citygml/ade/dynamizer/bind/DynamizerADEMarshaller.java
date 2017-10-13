@@ -238,6 +238,9 @@ public class DynamizerADEMarshaller implements ADEMarshaller {
 		
 		if (src.isSetLinkToSensorML())
 			dest.setLinkToSensorML(src.getLinkToSensorML());
+		
+		if (src.isSetSensorLocation())
+			dest.setSensorLocation(helper.getGMLMarshaller().marshalFeatureProperty(src.getSensorLocation()));
 
 		return dest;
 	}
