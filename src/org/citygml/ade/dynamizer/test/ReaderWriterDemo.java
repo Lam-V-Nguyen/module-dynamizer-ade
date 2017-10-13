@@ -80,10 +80,12 @@ public class ReaderWriterDemo {
 						NodeList kvps = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "point");
 						for (int i = 0; i < kvps.getLength(); i++) {
 							Node meaureTimeNode = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "time").item(i);
-							String measureTime = meaureTimeNode.getFirstChild().getNodeValue();
+							String measureTime = meaureTimeNode.getFirstChild().getNodeValue();							
 							Node measureValueNode = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "value").item(i);
 							String measureValue = measureValueNode.getFirstChild().getNodeValue();
 							System.out.println(measureTime + " : " + measureValue);
+							
+							meaureTimeNode.setTextContent(measureTime + " [visited]");
 						}
 					}
 				}
