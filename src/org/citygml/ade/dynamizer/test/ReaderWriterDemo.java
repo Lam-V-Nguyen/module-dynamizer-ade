@@ -17,14 +17,12 @@ import org.citygml4j.xml.io.CityGMLOutputFactory;
 import org.citygml4j.xml.io.reader.CityGMLReader;
 import org.citygml4j.xml.io.writer.CityGMLWriter;
 
-import net.opengis.gml.TimeIndeterminateValueType;
-
 public class ReaderWriterDemo {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Starting TestADE sample program.");
+		System.out.println("Starting program.");
 
-		// create a citygml4j context and register the TestADE context
+		// create a citygml4j context and register the ADE context
 		CityGMLContext context = new CityGMLContext();
 
 		// load ade contexts
@@ -36,7 +34,7 @@ public class ReaderWriterDemo {
 		System.out.println("Reading the CityGML ADE dataset");
 
 		CityGMLInputFactory in = builder.createCityGMLInputFactory();
-		CityGMLReader reader = in.createCityGMLReader(new File("datasets/CityGML_QEOP_LinkToSensor_Dynamizer.gml"));
+		CityGMLReader reader = in.createCityGMLReader(new File("datasets/Dynamizer_LinkToSensor.gml"));
 
 		// unmarshal dataset into a CityModel
 		CityModel cityModel = (CityModel)reader.nextFeature();
@@ -80,7 +78,7 @@ public class ReaderWriterDemo {
 		writer.setPrefixes(context.getADEContexts());
 		writer.setSchemaLocations(CityGMLVersion.v2_0_0);
 
-		// we provide the schema location to the CityGML-TestADE.xsd manually here.
+		// we provide the schema location to the ADE schema manually here.
 		// If the schema would be available on the Internet, the schema location could be
 		// hard-coded in the ADEModule of the TestADEContext.
 		writer.setSchemaLocation("http://www.citygml.org/ade/TestADE/1.0", "CityGML-DynamizerADE.xsd");
