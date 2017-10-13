@@ -67,7 +67,7 @@ public class ReaderWriterDemo {
 		System.out.println("The dataset contains the following features:");
 		cityModel.accept(walker);
 
-		System.out.println("Writing the TestADE feature hierachy to 'test.gml'...");
+		System.out.println("Writing the ADE feature hierachy to 'test.gml'...");
 
 		// write CityGML dataset
 		CityGMLOutputFactory out = builder.createCityGMLOutputFactory(CityGMLVersion.v2_0_0);
