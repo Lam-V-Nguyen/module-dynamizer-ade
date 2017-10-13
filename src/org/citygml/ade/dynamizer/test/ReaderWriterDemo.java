@@ -64,7 +64,7 @@ public class ReaderWriterDemo {
 
 		// write CityGML dataset
 		CityGMLOutputFactory out = builder.createCityGMLOutputFactory(CityGMLVersion.v2_0_0);
-		CityGMLWriter writer = out.createCityGMLWriter(new File("datasets/test.gml"));
+		CityGMLWriter writer = out.createCityGMLWriter(new File("output/test.gml"));
 
 		writer.setIndentString("  ");
 		writer.setPrefixes(CityGMLVersion.v2_0_0);
