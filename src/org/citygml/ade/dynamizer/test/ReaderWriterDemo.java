@@ -81,7 +81,7 @@ public class ReaderWriterDemo {
 		// we provide the schema location to the ADE schema manually here.
 		// If the schema would be available on the Internet, the schema location could be
 		// hard-coded in the ADEModule of the TestADEContext.
-		writer.setSchemaLocation("http://www.citygml.org/ade/TestADE/1.0", "CityGML-DynamizerADE.xsd");
+		writer.setSchemaLocation("http://www.citygml.org/ade/dynamizer_ade/1.0", "CityGML-DynamizerADE.xsd");
 
 		writer.write(cityModel);
 		writer.close();
