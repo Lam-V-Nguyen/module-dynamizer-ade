@@ -1,4 +1,4 @@
-package org.citygml.ade.dynamizer;
+package org.citygml.ade.dynamizer.database;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.citydb.ade.ADEObjectMapper;
 import org.citydb.ade.exporter.ADEExportManager;
 import org.citydb.ade.importer.ADEImportManager;
 import org.citydb.database.schema.mapping.SchemaMapping;
+import org.citygml.ade.dynamizer.DynamizerADEContext;
 import org.citygml.ade.dynamizer.database.exporter.ExportManager;
 import org.citygml.ade.dynamizer.database.importer.ImportManager;
 import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
