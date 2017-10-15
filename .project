@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src-impExp</name>
+			<type>2</type>
+			<location>C:/Eclipse_CityGML/3DCityDB_Workspace/importer-exporter-vcs/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

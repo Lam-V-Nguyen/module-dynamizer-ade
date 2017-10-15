@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
@@ -76,6 +77,16 @@ public class DynamizerADEModule extends ADEModule {
 		}
 
 		return null;
+	}
+
+	@Override
+	public Map<String, Class<? extends AbstractFeature>> getFeatures() {
+		return null;
+	}
+
+	@Override
+	public boolean isTopLevelFeature(String arg0) {
+		return false;
 	}
 
 }
