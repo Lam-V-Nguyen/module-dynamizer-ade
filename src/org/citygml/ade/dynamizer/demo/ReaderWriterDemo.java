@@ -1,4 +1,4 @@
-package org.citygml.ade.dynamizer.test;
+package org.citygml.ade.dynamizer.demo;
 
 import java.io.File;
 import java.util.ServiceLoader;
