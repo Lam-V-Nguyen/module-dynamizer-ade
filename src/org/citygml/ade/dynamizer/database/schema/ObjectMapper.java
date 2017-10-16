@@ -7,6 +7,11 @@ import org.citydb.ade.ADEExtensionException;
 import org.citydb.ade.ADEObjectMapper;
 import org.citydb.database.schema.mapping.AbstractObjectType;
 import org.citydb.database.schema.mapping.SchemaMapping;
+import org.citygml.ade.dynamizer.model.AbstractTimeseries;
+import org.citygml.ade.dynamizer.model.AtomicTimeseries;
+import org.citygml.ade.dynamizer.model.CompositeTimeseries;
+import org.citygml.ade.dynamizer.model.Dynamizer;
+import org.citygml.ade.dynamizer.model.TimeseriesComponent;
 import org.citygml4j.model.gml.base.AbstractGML;
 import org.citygml4j.model.module.citygml.CityGMLVersion;
 
@@ -14,42 +19,27 @@ public class ObjectMapper implements ADEObjectMapper {
 	private HashMap<Class<? extends AbstractGML>, Integer> objectClassIds = new HashMap<>();
 
 	public void populateObjectClassIds(SchemaMapping schemaMapping) throws ADEExtensionException {
-		/*for (AbstractObjectType<?> type : schemaMapping.getAbstractObjectTypes()) {
+		for (AbstractObjectType<?> type : schemaMapping.getAbstractObjectTypes()) {
 			int objectClassId = type.getObjectClassId();
 			
 			switch (type.getPath()) {
-			case "_AbstractBuildingUnit":
-				objectClassIds.put(AbstractBuildingUnit.class, objectClassId);
+			case "Dynamizer":
+				objectClassIds.put(Dynamizer.class, objectClassId);
 				break;
-			case "BuildingUnit":
-				objectClassIds.put(BuildingUnit.class, objectClassId);
+			case "AbstractTimeseries":
+				objectClassIds.put(AbstractTimeseries.class, objectClassId);
 				break;
-			case "BuildingUnitPart":
-				objectClassIds.put(BuildingUnitPart.class, objectClassId);
+			case "AtomicTimeseries":
+				objectClassIds.put(AtomicTimeseries.class, objectClassId);
 				break;
-			case "Facilities":
-				objectClassIds.put(AbstractFacilities.class, objectClassId);
+			case "CompositeTimeseries":
+				objectClassIds.put(CompositeTimeseries.class, objectClassId);
 				break;
-			case "DHWFacilities":
-				objectClassIds.put(DHWFacilities.class, objectClassId);
-				break;
-			case "LightingFacilities":
-				objectClassIds.put(LightingFacilities.class, objectClassId);
-				break;
-			case "IndustrialBuilding":
-				objectClassIds.put(IndustrialBuilding.class, objectClassId);
-				break;
-			case "IndustrialBuildingPart":
-				objectClassIds.put(IndustrialBuildingPart.class, objectClassId);
-				break;
-			case "IndustrialBuildingRoofSurface":
-				objectClassIds.put(IndustrialBuildingRoofSurface.class, objectClassId);
-				break;
-			case "OtherConstruction":
-				objectClassIds.put(OtherConstruction.class, objectClassId);
+			case "TimeseriesComponent":
+				objectClassIds.put(TimeseriesComponent.class, objectClassId);
 				break;
 			}
-		}*/
+		}
 	}
 
 	@Override

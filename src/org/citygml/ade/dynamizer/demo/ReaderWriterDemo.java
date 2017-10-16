@@ -3,10 +3,13 @@ package org.citygml.ade.dynamizer.demo;
 import java.io.File;
 import java.util.ServiceLoader;
 
+import javax.xml.transform.TransformerException;
+
 import org.citygml.ade.dynamizer.model.AbstractTimeseries;
 import org.citygml.ade.dynamizer.model.AtomicTimeseries;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml.ade.dynamizer.model.GMLTimePosition;
+import org.citygml.ade.dynamizer.util.DynamizerUtil;
 import org.citygml4j.CityGMLContext;
 import org.citygml4j.builder.CityGMLBuilder;
 import org.citygml4j.model.citygml.ade.binding.ADEContext;
@@ -75,6 +78,12 @@ public class ReaderWriterDemo {
 						Object dynamicDataTVP = ((AtomicTimeseries)timeseries).getDynamicDataTVP();
 						ElementNSImpl elementNSImpl = (ElementNSImpl)dynamicDataTVP;
 						Document document = elementNSImpl.getOwnerDocument();	
+						
+						try {
+							System.out.println(DynamizerUtil.convertXMLDocumentToString(document));
+						} catch (TransformerException e) {
+							e.printStackTrace();
+						}
 						
 						System.out.println("Timeseries data of the dynamizer '" + dynamizer.getId() + "':");
 						NodeList kvps = document.getElementsByTagNameNS("http://www.opengis.net/tsml/1.0", "point");
