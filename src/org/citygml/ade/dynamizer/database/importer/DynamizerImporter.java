@@ -38,7 +38,7 @@ public class DynamizerImporter implements ADEImporter {
 				.append("(id, cityobject_dynamizers_ID, dynamicData_ID, linkToSensor_ID, ")
 				.append("attributeRef, startTime, startTime_frame, startTime_calendarEraName, startTime_indeterminatePosit, ")
 				.append("endTime, endTime_frame, endTime_calendarEraName, endTime_indeterminatePositio) ")
-				.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		ps = connection.prepareStatement(stmt.toString());
 
 		sensorConnectionImporter = manager.getImporter(SensorConnectionImporter.class);
@@ -54,11 +54,6 @@ public class DynamizerImporter implements ADEImporter {
 		else
 			ps.setNull(2, Types.NULL);
 		
-		if (dynamizer.isSetAttributeRef())
-			ps.setString(3, dynamizer.getAttributeRef());
-		else
-			ps.setNull(3, Types.VARCHAR);
-
 		long timeseriesId = 0;
 		TimeseriesProperty timeSeriesProperty = dynamizer.getDynamicData();
 		if (timeSeriesProperty != null) {
@@ -73,9 +68,9 @@ public class DynamizerImporter implements ADEImporter {
 			}
 		}
 		if (timeseriesId != 0)
-			ps.setLong(4, timeseriesId);
+			ps.setLong(3, timeseriesId);
 		else
-			ps.setNull(4, Types.NULL);
+			ps.setNull(3, Types.NULL);
 		
 		long linkToSensorId = 0;
 		SensorConnectionProperty sensorConnectionProperty = dynamizer.getLinkToSensor();
@@ -88,9 +83,14 @@ public class DynamizerImporter implements ADEImporter {
 			} 
 		}
 		if (linkToSensorId != 0)
-			ps.setLong(5, linkToSensorId);
+			ps.setLong(4, linkToSensorId);
 		else
-			ps.setNull(5, Types.NULL);
+			ps.setNull(4, Types.NULL);
+		
+		if (dynamizer.isSetAttributeRef())
+			ps.setString(5, dynamizer.getAttributeRef());
+		else
+			ps.setNull(5, Types.VARCHAR);
 		
 		GMLTimePosition startTime = dynamizer.getStartTime();
 		if (startTime.isSetValue()) {

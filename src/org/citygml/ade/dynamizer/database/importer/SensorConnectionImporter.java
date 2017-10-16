@@ -43,7 +43,7 @@ public class SensorConnectionImporter implements ADEImporter {
 		if (cityObjectProperty != null) {
 			String href = cityObjectProperty.getHref();
 			if (href != null && href.length() != 0) {
-				ObjectType dummyObjectType = new ObjectType("dummy", "dummy", helper.getTableNameWithSchema(schemaMapper.getTableName(ADETables.SENSORCONNECTION)), 0, null, null);
+				ObjectType dummyObjectType = new ObjectType("dummy", "dummy", schemaMapper.getTableName(ADETables.SENSORCONNECTION), 0, null, null);
 				helper.propagateObjectXlink(dummyObjectType, objectId, href, "sensorLocation_ID");
 			}
 		}

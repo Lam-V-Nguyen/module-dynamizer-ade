@@ -11,6 +11,8 @@ import org.citydb.modules.citygml.importer.CityGMLImportException;
 import org.citygml.ade.dynamizer.database.schema.ADETables;
 import org.citygml.ade.dynamizer.database.schema.SchemaMapper;
 import org.citygml.ade.dynamizer.model.AbstractTimeseries;
+import org.citygml.ade.dynamizer.model.AtomicTimeseries;
+import org.citygml.ade.dynamizer.model.CompositeTimeseries;
 
 public class TimeseriesImporter implements ADEImporter {
 	private final CityGMLImportHelper helper;
@@ -18,6 +20,9 @@ public class TimeseriesImporter implements ADEImporter {
 	
 	private PreparedStatement ps;
 	private int batchCounter;
+	
+	private AtomicTimeseriesImporter atomicTimeseriesImporter;
+	private CompositeTimeseriesImporter compositeTimeseriesImporter;
 
 	public TimeseriesImporter(Connection connection, CityGMLImportHelper helper, ImportManager manager) throws CityGMLImportException, SQLException {
 		this.helper = helper;
@@ -28,6 +33,9 @@ public class TimeseriesImporter implements ADEImporter {
 				.append("(id) ")
 				.append("values (?)");
 		ps = connection.prepareStatement(stmt.toString());
+		
+		atomicTimeseriesImporter = manager.getImporter(AtomicTimeseriesImporter.class);
+		compositeTimeseriesImporter = manager.getImporter(CompositeTimeseriesImporter.class);
 	}
 	
 	public void doImport(AbstractTimeseries timeseries, long objectId, AbstractObjectType<?> objectType, ForeignKeys foreignKeys) throws CityGMLImportException, SQLException {
@@ -36,6 +44,13 @@ public class TimeseriesImporter implements ADEImporter {
 		ps.addBatch();
 		if (++batchCounter == helper.getDatabaseAdapter().getMaxBatchSize())
 			helper.executeBatch(objectType);
+		
+		if (timeseries instanceof AtomicTimeseries) 
+			atomicTimeseriesImporter.doImport((AtomicTimeseries) timeseries, objectId, objectType);
+		
+		if (timeseries instanceof CompositeTimeseries)
+			compositeTimeseriesImporter.doImport((CompositeTimeseries) timeseries, objectId, objectType);
+			
 	}
 
 	@Override

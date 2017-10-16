@@ -54,7 +54,7 @@ public class ImportManager implements ADEImportManager {
 		else if (object instanceof AtomicTimeseries)
 			getImporter(AtomicTimeseriesImporter.class).doImport((AtomicTimeseries)object, objectId, objectType);
 		else if (object instanceof CompositeTimeseries)
-			getImporter(CompositeTimeseriesImporter.class).doImport((CompositeTimeseries)object, objectId, objectType, foreignKeys);
+			getImporter(CompositeTimeseriesImporter.class).doImport((CompositeTimeseries)object, objectId, objectType);
 		else if (object instanceof TimeseriesComponent)
 			getImporter(TimeseriesComponentImporter.class).doImport((TimeseriesComponent)object, objectId, objectType, foreignKeys);
 	}

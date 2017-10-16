@@ -33,7 +33,7 @@ public class CompositeTimeseriesImporter implements ADEImporter {
 		ps = connection.prepareStatement(stmt.toString());
 	}
 	
-	public void doImport(CompositeTimeseries compositeTimeseries, long objectId, AbstractObjectType<?> objectType, ForeignKeys foreignKeys) throws CityGMLImportException, SQLException {
+	public void doImport(CompositeTimeseries compositeTimeseries, long objectId, AbstractObjectType<?> objectType) throws CityGMLImportException, SQLException {
 		ps.setLong(1, objectId);
 		
 		ps.addBatch();

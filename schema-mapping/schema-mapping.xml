@@ -7,7 +7,7 @@
         <dbPrefix>dym</dbPrefix>
     </metadata>
     <applicationSchemas>
-        <schema id="dym" xmlPrefix="ade3" isADERoot="true">
+        <schema id="dym" xmlPrefix="ade5" isADERoot="true">
             <namespace context="citygml-2.0">http://www.citygml.org/ade/dynamizer_ade/1.0</namespace>
         </schema>
     </applicationSchemas>

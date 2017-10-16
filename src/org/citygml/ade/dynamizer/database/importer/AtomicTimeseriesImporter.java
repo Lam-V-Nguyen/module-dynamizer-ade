@@ -39,9 +39,7 @@ public class AtomicTimeseriesImporter implements ADEImporter {
 	
 	public void doImport(AtomicTimeseries atomicTimeseries, long objectId, AbstractObjectType<?> objectType) throws CityGMLImportException, SQLException {
 		ps.setLong(1, objectId);
-		
-		//TODO invoke the doImport() function of the class TimeseriesImporter?
-		
+
 		if (atomicTimeseries.isSetDynamicDataTVP()) {
 			Object dynamicDataTVP = atomicTimeseries.getDynamicDataTVP();
 			ElementNSImpl elementNSImpl = (ElementNSImpl)dynamicDataTVP;
@@ -71,11 +69,11 @@ public class AtomicTimeseriesImporter implements ADEImporter {
 		}
 		
 		if (atomicTimeseries.isSetObservationData()) {
-			Object observationData = atomicTimeseries.getDynamicDataDR();
+			Object observationData = atomicTimeseries.getObservationData();
 			ElementNSImpl elementNSImpl = (ElementNSImpl)observationData;
 			Document document = elementNSImpl.getOwnerDocument();
 			try {
-				ps.setString(3, DynamizerUtil.convertXMLDocumentToString(document));
+				ps.setString(4, DynamizerUtil.convertXMLDocumentToString(document));
 			} catch (TransformerException e) {
 				throw new CityGMLImportException("Failed to import SOS ObservationData data", e);
 			}
