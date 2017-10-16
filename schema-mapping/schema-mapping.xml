@@ -23,7 +23,7 @@
         </complexType>
     </complexTypes>
     <featureTypes>
-        <featureType id="dym_DynamizerType" table="dym_Dynamizer" objectClassId="30000" path="Dynamizer" schema="dym">
+        <featureType id="dym_DynamizerType" table="dym_Dynamizer" objectClassId="30000" topLevel="true" path="Dynamizer" schema="dym">
             <extension base="AbstractCityObjectType">
                 <join table="cityobject" fromColumn="ID" toColumn="ID" toRole="parent"/>
             </extension>
