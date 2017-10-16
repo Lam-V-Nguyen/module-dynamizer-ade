@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schemaMapping xmlns="http://www.3dcitydb.org/database/schema/3.0">
+    <metadata>
+        <name>Dynamizer</name>
+        <version>1.0</version>
+        <description>DynamizerADE</description>
+        <dbPrefix>dym</dbPrefix>
+    </metadata>
+    <applicationSchemas>
+        <schema id="dym" xmlPrefix="ade3" isADERoot="true">
+            <namespace context="citygml-2.0">http://www.citygml.org/ade/dynamizer_ade/1.0</namespace>
+        </schema>
+    </applicationSchemas>
+    <complexTypes>
+        <complexType id="dym_SensorConnectionType" table="dym_SensorConnection" path="SensorConnection" schema="dym">
+            <attribute column="sensorID" type="string" path="sensorID" schema="dym"/>
+            <attribute column="serviceType" type="string" path="serviceType" schema="dym"/>
+            <attribute column="linkToObservation" type="string" path="linkToObservation" schema="dym"/>
+            <attribute column="linkToSensorML" type="string" path="linkToSensorML" schema="dym"/>
+            <featureProperty target="AbstractCityObjectType" path="sensorLocation" schema="dym">
+                <join table="cityobject" fromColumn="sensorLocation_ID" toColumn="ID" toRole="parent"/>
+            </featureProperty>
+        </complexType>
+    </complexTypes>
+    <featureTypes>
+        <featureType id="dym_DynamizerType" table="dym_Dynamizer" objectClassId="30000" path="Dynamizer" schema="dym">
+            <extension base="AbstractCityObjectType">
+                <join table="cityobject" fromColumn="ID" toColumn="ID" toRole="parent"/>
+            </extension>
+            <attribute column="attributeRef" type="string" path="attributeRef" schema="dym"/>
+            <complexAttribute path="startTime" schema="dym">
+                <attribute column="startTime_frame" type="string" path="@frame" schema="dym"/>
+                <attribute column="startTime_calendarEraName" type="string" path="@calendarEraName" schema="dym"/>
+                <attribute column="startTime_indeterminatePosit" type="string" path="@indeterminatePosition" schema="dym"/>
+                <attribute column="startTime" type="string" path="." schema="dym"/>
+            </complexAttribute>
+            <complexAttribute path="endTime" schema="dym">
+                <attribute column="endTime_frame" type="string" path="@frame" schema="dym"/>
+                <attribute column="endTime_calendarEraName" type="string" path="@calendarEraName" schema="dym"/>
+                <attribute column="endTime_indeterminatePositio" type="string" path="@indeterminatePosition" schema="dym"/>
+                <attribute column="endTime" type="string" path="." schema="dym"/>
+            </complexAttribute>
+            <featureProperty target="dym_AbstractTimeseriesType" path="dynamicData" schema="dym">
+                <join table="dym_Timeseries" fromColumn="dynamicData_ID" toColumn="ID" toRole="parent"/>
+            </featureProperty>
+            <complexProperty refType="dym_SensorConnectionType" path="linkToSensor" schema="dym">
+                <join table="dym_SensorConnection" fromColumn="linkToSensor_ID" toColumn="ID" toRole="parent"/>
+            </complexProperty>
+        </featureType>
+        <featureType id="dym_AbstractTimeseriesType" table="dym_Timeseries" objectClassId="30001" path="AbstractTimeseries" schema="dym">
+            <extension base="AbstractFeatureType">
+                <join table="cityobject" fromColumn="ID" toColumn="ID" toRole="parent"/>
+            </extension>
+        </featureType>
+        <featureType id="dym_AtomicTimeseriesType" table="dym_AtomicTimeseries" objectClassId="30002" path="AtomicTimeseries" schema="dym">
+            <extension base="dym_AbstractTimeseriesType">
+                <join table="dym_Timeseries" fromColumn="ID" toColumn="ID" toRole="parent"/>
+            </extension>
+        </featureType>
+        <featureType id="dym_CompositeTimeseriesType" table="dym_CompositeTimeseries" objectClassId="30003" path="CompositeTimeseries" schema="dym">
+            <extension base="dym_AbstractTimeseriesType">
+                <join table="dym_Timeseries" fromColumn="ID" toColumn="ID" toRole="parent"/>
+            </extension>
+            <featureProperty target="dym_TimeseriesComponentType" path="component" schema="dym">
+                <join table="dym_TimeseriesComponent" fromColumn="ID" toColumn="CompositeTimese_component_ID" toRole="child"/>
+            </featureProperty>
+        </featureType>
+        <featureType id="dym_TimeseriesComponentType" table="dym_TimeseriesComponent" objectClassId="30004" path="TimeseriesComponent" schema="dym">
+            <extension base="AbstractFeatureType">
+                <join table="cityobject" fromColumn="ID" toColumn="ID" toRole="parent"/>
+            </extension>
+            <attribute column="repetitions" type="integer" path="repetitions" schema="dym"/>
+            <attribute column="additionalGap" type="string" path="additionalGap" schema="dym"/>
+            <featureProperty target="dym_AbstractTimeseriesType" path="timeseries" schema="dym">
+                <join table="dym_Timeseries" fromColumn="timeseries_ID" toColumn="ID" toRole="parent"/>
+            </featureProperty>
+        </featureType>
+    </featureTypes>
+    <propertyInjections>
+        <propertyInjection table="dym_cityobject" defaultBase="AbstractCityObjectType">
+            <join table="dym_cityobject" fromColumn="ID" toColumn="ID" toRole="child"/>
+            <featureProperty target="dym_DynamizerType" path="dynamizers" schema="dym">
+                <join table="dym_Dynamizer" fromColumn="ID" toColumn="cityobject_dynamizers_ID" toRole="child"/>
+            </featureProperty>
+        </propertyInjection>
+    </propertyInjections>
+</schemaMapping>
