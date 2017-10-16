@@ -27,7 +27,7 @@ public class CompositeTimeseriesImporter implements ADEImporter {
 		this.schemaMapper = manager.getSchemaMapper();
 
 		StringBuilder stmt = new StringBuilder("insert into ")
-				.append(helper.getTableNameWithSchema(schemaMapper.getTableName(ADETables.TIMESERIES))).append(" ")
+				.append(helper.getTableNameWithSchema(schemaMapper.getTableName(ADETables.COMPOSITETIMESERIES))).append(" ")
 				.append("(id) ")
 				.append("values (?)");
 		ps = connection.prepareStatement(stmt.toString());

@@ -31,7 +31,7 @@ public class AtomicTimeseriesImporter implements ADEImporter {
 		this.schemaMapper = manager.getSchemaMapper();
 
 		StringBuilder stmt = new StringBuilder("insert into ")
-				.append(helper.getTableNameWithSchema(schemaMapper.getTableName(ADETables.TIMESERIES))).append(" ")
+				.append(helper.getTableNameWithSchema(schemaMapper.getTableName(ADETables.ATOMICTIMESERIES))).append(" ")
 				.append("(id, dynamicDataTVP, dynamicDataDR, observationData) ")
 				.append("values (?, ?, ?, ?)");
 		ps = connection.prepareStatement(stmt.toString());
