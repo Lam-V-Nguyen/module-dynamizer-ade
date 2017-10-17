@@ -16,7 +16,6 @@ import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
 import org.citygml.ade.dynamizer.database.schema.SchemaMapper;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
-import org.citygml4j.model.citygml.core.AbstractCityObject;
 import org.citygml4j.model.gml.feature.AbstractFeature;
 
 public class ExportManager implements ADEExportManager {
