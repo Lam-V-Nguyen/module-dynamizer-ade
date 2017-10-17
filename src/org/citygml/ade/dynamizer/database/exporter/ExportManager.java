@@ -71,6 +71,8 @@ public class ExportManager implements ADEExportManager {
 				exporter = new DynamizerExporter(connection, helper, this);
 			else if (type == TimeseriesExporter.class)
 				exporter = new TimeseriesExporter(connection, helper, this);
+			else if (type == SensorConnectionExporter.class)
+				exporter = new SensorConnectionExporter(connection, helper, this);
 
 			if (exporter == null)
 				throw new SQLException("Failed to build ADE exporter of type " + type.getName() + ".");

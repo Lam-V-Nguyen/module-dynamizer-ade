@@ -30,7 +30,7 @@ public class CityObjectPropertiesExporter implements ADEExporter {
 
 		try (ResultSet rs = ps.executeQuery()) {
 			if (rs.next()) {
-			//	dynamizerExporter.doExport(parent, parentId, parentType);
+				dynamizerExporter.doExport(parent, parentId, parentType);
 			}
 		}
 	}

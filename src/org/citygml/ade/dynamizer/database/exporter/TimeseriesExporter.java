@@ -47,6 +47,7 @@ public class TimeseriesExporter implements ADEExporter {
 		try (ResultSet rs = ps.executeQuery()) {
 			while (rs.next()) {
 				long atomicTimeseriesId = rs.getLong(1);
+				long compositeTimeseriesId = rs.getLong(2);
 				if (atomicTimeseriesId > 0) {
 					int objectClassId = objectMapper.getObjectClassId(AtomicTimeseries.class);
 					
@@ -90,9 +91,11 @@ public class TimeseriesExporter implements ADEExporter {
 													
 						if (document != null) 
 							
-
 						return new TimeseriesProperty(atomicTimeseries);
 					}
+				}
+				else if (compositeTimeseriesId > 0) {
+					// TODO
 				}
 			}
 		}
