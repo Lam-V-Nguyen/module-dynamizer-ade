@@ -49,7 +49,7 @@ public class DynamizerADEExtension extends ADEExtension {
 
 	@Override
 	public ADEExportManager createADEExportManager() {
-		return new ExportManager(schemaMapper);
+		return new ExportManager(schemaMapper, objectMapper);
 	}
 	
 	public SchemaMapper getSchemaMapper() {

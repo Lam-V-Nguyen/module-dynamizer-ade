@@ -12,20 +12,24 @@ import org.citydb.database.schema.mapping.AbstractObjectType;
 import org.citydb.database.schema.mapping.FeatureType;
 import org.citydb.feature.filter.projection.ProjectionFilter;
 import org.citydb.modules.citygml.exporter.CityGMLExportException;
+import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
 import org.citygml.ade.dynamizer.database.schema.SchemaMapper;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
+import org.citygml4j.model.citygml.core.AbstractCityObject;
 import org.citygml4j.model.gml.feature.AbstractFeature;
 
 public class ExportManager implements ADEExportManager {
 	private final Map<Class<? extends ADEExporter>, ADEExporter> exporters;
 	private final SchemaMapper schemaMapper;
+	private final ObjectMapper objectMapper;
 	
 	private Connection connection;
 	private CityGMLExportHelper helper;
 	
-	public ExportManager(SchemaMapper schemaMapper) {
+	public ExportManager(SchemaMapper schemaMapper, ObjectMapper objectMapper) {
 		this.schemaMapper = schemaMapper;
+		this.objectMapper = objectMapper;
 		exporters = new HashMap<>();
 	}
 	
@@ -38,7 +42,7 @@ public class ExportManager implements ADEExportManager {
 	@Override
 	public void exportObject(ADEModelObject object, long objectId, AbstractObjectType<?> objectType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
 		if (object instanceof Dynamizer)
-			getExporter(DynamizerExporter.class).doExport(objectId);
+			getExporter(DynamizerExporter.class).doExport((Dynamizer)object, objectId, objectType);
 	}
 	
 	@Override
@@ -54,6 +58,10 @@ public class ExportManager implements ADEExportManager {
 	
 	protected SchemaMapper getSchemaMapper() {
 		return schemaMapper;
+	}
+	
+	protected ObjectMapper getObjectMapper() {
+		return objectMapper;
 	}
 
 	protected <T extends ADEExporter> T getExporter(Class<T> type) throws CityGMLExportException, SQLException {
