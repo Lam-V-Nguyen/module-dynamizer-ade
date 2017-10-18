@@ -45,7 +45,7 @@ public class CompositeTimeseriesImporter implements ADEImporter {
 				TimeseriesComponent component = property.getTimeseriesComponent();
 				if (component != null) {
 					helper.importObject(component, ForeignKeys.create().with("parentId", objectId));
-					property.unsetTimeseriesComponent();;
+					property.unsetTimeseriesComponent();
 				} else {
 					String href = property.getHref();
 					if (href != null && href.length() != 0)

@@ -27,7 +27,7 @@ public class CityObjectPropertiesExporter implements ADEExporter {
 
 	public void doExport(AbstractCityObject parent, long parentId, FeatureType parentType) throws CityGMLExportException, SQLException {
 		ps.setLong(1, parentId);
-
+		
 		try (ResultSet rs = ps.executeQuery()) {
 			if (rs.next()) {
 				dynamizerExporter.doExport(parent, parentId, parentType);

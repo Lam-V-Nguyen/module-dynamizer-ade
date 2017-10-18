@@ -23,6 +23,7 @@ public class TimeseriesComponentExporter implements ADEExporter {
 	private TimeseriesExporter timeseriesExporter;
 	private CityGMLExportHelper cityGMLExportHelper;
 	private ObjectMapper objectMapper;
+	private ExportManager manager;
 	
 	public TimeseriesComponentExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {
 		
@@ -30,13 +31,15 @@ public class TimeseriesComponentExporter implements ADEExporter {
 				.append("from ").append(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETables.TIMESERIESCOMPONENT))).append(" ")
 				.append("where CompositeTimese_component_ID = ?");
 		ps = connection.prepareStatement(stmt.toString());
-		
-		timeseriesExporter = manager.getExporter(TimeseriesExporter.class);
+
 		cityGMLExportHelper = helper;
 		objectMapper = manager.getObjectMapper();
+		this.manager = manager;
 	}
 	
 	public void doExport(CompositeTimeseries parent, long parentId) throws CityGMLExportException, SQLException {
+		timeseriesExporter = manager.getExporter(TimeseriesExporter.class);
+		
 		ps.setLong(1, parentId);		
 		
 		try (ResultSet rs = ps.executeQuery()) {

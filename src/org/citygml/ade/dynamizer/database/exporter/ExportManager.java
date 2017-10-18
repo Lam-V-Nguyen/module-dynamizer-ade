@@ -12,10 +12,12 @@ import org.citydb.database.schema.mapping.AbstractObjectType;
 import org.citydb.database.schema.mapping.FeatureType;
 import org.citydb.feature.filter.projection.ProjectionFilter;
 import org.citydb.modules.citygml.exporter.CityGMLExportException;
+import org.citygml.ade.dynamizer.database.schema.ADETables;
 import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
 import org.citygml.ade.dynamizer.database.schema.SchemaMapper;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
+import org.citygml4j.model.citygml.core.AbstractCityObject;
 import org.citygml4j.model.gml.feature.AbstractFeature;
 
 public class ExportManager implements ADEExportManager {
@@ -46,7 +48,10 @@ public class ExportManager implements ADEExportManager {
 	
 	@Override
 	public void exportGenericApplicationProperties(String adeHookTable, AbstractFeature parent, long parentId, FeatureType parentType, ProjectionFilter projectionFilter) throws CityGMLExportException, SQLException {
-		//TODO
+		if (adeHookTable.equals(schemaMapper.getTableName(ADETables.CITYOBJECT)) && parent instanceof AbstractCityObject) {
+			CityObjectPropertiesExporter exporter = getExporter(CityObjectPropertiesExporter.class);
+			exporter.doExport((AbstractCityObject)parent, parentId, parentType);
+		}			
 	}
 
 	@Override
@@ -65,7 +70,7 @@ public class ExportManager implements ADEExportManager {
 
 	protected <T extends ADEExporter> T getExporter(Class<T> type) throws CityGMLExportException, SQLException {
 		ADEExporter exporter = exporters.get(type);
-		
+
 		if (exporter == null) {
 			if (type == DynamizerExporter.class)
 				exporter = new DynamizerExporter(connection, helper, this);
@@ -73,6 +78,10 @@ public class ExportManager implements ADEExportManager {
 				exporter = new TimeseriesExporter(connection, helper, this);
 			else if (type == SensorConnectionExporter.class)
 				exporter = new SensorConnectionExporter(connection, helper, this);
+			else if (type == TimeseriesComponentExporter.class)
+				exporter = new TimeseriesComponentExporter(connection, helper, this);
+			else if (type == CityObjectPropertiesExporter.class)
+				exporter = new CityObjectPropertiesExporter(connection, helper, this);
 
 			if (exporter == null)
 				throw new SQLException("Failed to build ADE exporter of type " + type.getName() + ".");

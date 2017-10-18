@@ -26,7 +26,7 @@ public class TimeseriesExporter implements ADEExporter {
 	
 	private TimeseriesComponentExporter timeseriesComponentExporter;
 	
-	public TimeseriesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws SQLException {		
+	public TimeseriesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws CityGMLExportException, SQLException {		
 		StringBuilder stmt = new StringBuilder()
 				.append("select at.ID as AT_ID, ct.id as CT_ID, ")
 				.append("at.dynamicDataDR, at.dynamicDataTVP, at.observationData ")
@@ -36,11 +36,12 @@ public class TimeseriesExporter implements ADEExporter {
 				.append(" at on at.ID=ts.ID ")
 				.append("left join ")
 				.append(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETables.COMPOSITETIMESERIES)))
-				.append(" ct on at.ID=ct.ID where ts.ID = ?");
+				.append(" ct on ts.ID=ct.ID where ts.ID = ?");
 		ps = connection.prepareStatement(stmt.toString());
 		
 		objectMapper = manager.getObjectMapper();
 		cityGMLExportHelper = helper;
+		timeseriesComponentExporter = manager.getExporter(TimeseriesComponentExporter.class);
 	}
 
 	public TimeseriesProperty doExport(long parentId) throws CityGMLExportException, SQLException {
@@ -106,6 +107,7 @@ public class TimeseriesExporter implements ADEExporter {
 					}
 					
 					timeseriesComponentExporter.doExport(compositeTimeseries, compositeTimeseriesId);
+					return new TimeseriesProperty(compositeTimeseries);
 				}
 			}
 		}

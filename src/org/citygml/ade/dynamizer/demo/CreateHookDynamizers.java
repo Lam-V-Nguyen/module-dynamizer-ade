@@ -10,7 +10,6 @@ import javax.xml.datatype.DatatypeFactory;
 
 import org.citygml.ade.dynamizer.DynamizerADEContext;
 import org.citygml.ade.dynamizer.model.AbstractTimeseries;
-import org.citygml.ade.dynamizer.model.AtomicTimeseries;
 import org.citygml.ade.dynamizer.model.CompositeTimeseries;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml.ade.dynamizer.model.DynamizerProperty;
@@ -82,9 +81,7 @@ public class CreateHookDynamizers {
 				
 				dynamizer2.setDynamicData(new TimeseriesProperty(compositeTimeseries));
 				
-				System.out.println(dynamizer.getId());
-				cityModel.addCityObjectMember(new CityObjectMember(dynamizer));	
-				cityModel.addCityObjectMember(new CityObjectMember(dynamizer2));	
+				System.out.println(dynamizer.getId());	
 			}
 		}
 		
@@ -96,7 +93,7 @@ public class CreateHookDynamizers {
 				Building building = (Building)feature;
 				Iterator<Dynamizer> iter = dynamizers.iterator();
 				while (iter.hasNext()) {
-					DynamizersPropertyElement adeProperty = new DynamizersPropertyElement(new DynamizerProperty(iter.next().getId()));
+					DynamizersPropertyElement adeProperty = new DynamizersPropertyElement(new DynamizerProperty(iter.next()));
 					building.addGenericApplicationPropertyOfBuilding(adeProperty);
 				}					
 				

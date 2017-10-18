@@ -12,6 +12,7 @@ import org.citygml.ade.dynamizer.database.schema.ADETables;
 import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
 import org.citygml.ade.dynamizer.model.Dynamizer;
 import org.citygml.ade.dynamizer.model.DynamizerProperty;
+import org.citygml.ade.dynamizer.model.DynamizersPropertyElement;
 import org.citygml.ade.dynamizer.model.GMLTimePosition;
 import org.citygml.ade.dynamizer.model.SensorConnectionProperty;
 import org.citygml.ade.dynamizer.model.TimeseriesProperty;
@@ -123,15 +124,17 @@ public class DynamizerExporter implements ADEExporter {
 	
 	public void doExport(AbstractCityObject parent, long parentId, AbstractObjectType<?> parentFeature) throws CityGMLExportException, SQLException {
 		ps2.setLong(1, parentId);		
-		
+
 		try (ResultSet rs = ps2.executeQuery()) {
 			while (rs.next()) {
 				long dynamizerId = rs.getLong(1);
+				
 				int objectClassId = objectMapper.getObjectClassId(Dynamizer.class);
 				Dynamizer dynamizer = cityGMLExportHelper.createObjectStub(dynamizerId, objectClassId, Dynamizer.class);
 				DynamizerProperty property = new DynamizerProperty();
 				property.setHref(dynamizer.getId());
-				parent.addGenericApplicationPropertyOfCityObject(property);
+				DynamizersPropertyElement propertyElement = new DynamizersPropertyElement(property);
+				parent.addGenericApplicationPropertyOfCityObject(propertyElement);
 			}
 		}
 	}

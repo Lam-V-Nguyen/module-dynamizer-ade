@@ -4,9 +4,17 @@ import java.math.BigInteger;
 
 import javax.xml.datatype.Duration;
 
+import org.citygml.ade.dynamizer.model.module.DynamizerADEModule;
 import org.citygml4j.builder.copy.CopyBuilder;
+import org.citygml4j.model.citygml.ade.binding.ADEModelObject;
+import org.citygml4j.model.common.visitor.FeatureFunctor;
+import org.citygml4j.model.common.visitor.FeatureVisitor;
+import org.citygml4j.model.common.visitor.GMLFunctor;
+import org.citygml4j.model.common.visitor.GMLVisitor;
+import org.citygml4j.model.gml.feature.AbstractFeature;
+import org.citygml4j.model.module.ade.ADEModule;
 
-public class TimeseriesComponent extends AbstractTimeseries {
+public class TimeseriesComponent extends AbstractFeature implements ADEModelObject {
 	
 	private BigInteger repetitions;
 	private Duration additionalGap;
@@ -68,6 +76,31 @@ public class TimeseriesComponent extends AbstractTimeseries {
 			copy.setTimeseries((TimeseriesProperty)copyBuilder.copy(timeseries));
 		
 		return copy;
+	}
+
+	@Override
+	public void accept(FeatureVisitor visitor) {
+		visitor.visit((ADEModelObject)this);
+	}
+
+	@Override
+	public <T> T accept(FeatureFunctor<T> visitor) {
+		return visitor.apply((ADEModelObject)this);
+	}
+
+	@Override
+	public void accept(GMLVisitor visitor) {
+		visitor.visit((ADEModelObject)this);
+	}
+
+	@Override
+	public <T> T accept(GMLFunctor<T> visitor) {
+		return visitor.apply((ADEModelObject)this);
+	}
+	
+	@Override
+	public ADEModule getADEModule() {
+		return DynamizerADEModule.v1_0;
 	}
 	
 }
