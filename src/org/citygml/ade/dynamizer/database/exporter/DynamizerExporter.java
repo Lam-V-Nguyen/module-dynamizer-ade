@@ -55,64 +55,64 @@ public class DynamizerExporter implements ADEExporter {
 			while (rs.next()) {
 				long timeseriesId = rs.getLong(2);
 				
-				if (timeseriesId > 0) {
+				if (!rs.wasNull()) {
 					TimeseriesProperty timeseriesProperty = timeseriesExporter.doExport(timeseriesId);
 					if (timeseriesProperty != null)
 						dynamizer.setDynamicData(timeseriesProperty);
 				}
 		
 				long sensorConnectionId = rs.getLong(3);
-				if (sensorConnectionId > 0) {
+				if (!rs.wasNull()) {
 					SensorConnectionProperty sensorConnectionProperty = sensorConnectionExporter.doExport(sensorConnectionId);
 					if (sensorConnectionProperty != null)
 						dynamizer.setLinkToSensor(sensorConnectionProperty);
 				}				
 				
 				String attributeRef = rs.getString(4);
-				if (attributeRef != null) {
+				if (!rs.wasNull()) {
 					dynamizer.setAttributeRef(attributeRef);
 				}
 				
 				GMLTimePosition startTime = new GMLTimePosition();
 				String startTimeValue = rs.getString(5);
-				if (startTimeValue != null) {
+				if (!rs.wasNull()) {
 					startTime.setValue(startTimeValue);
 				}
 				
 				String startTimeFrame = rs.getString(6);
-				if (startTimeFrame != null) {
+				if (!rs.wasNull()) {
 					startTime.setFrame(startTimeFrame);
 				}
 				
 				String startTimeCalendarEraName = rs.getString(7);
-				if (startTimeCalendarEraName != null) {
+				if (!rs.wasNull()) {
 					startTime.setCalendarEraName(startTimeCalendarEraName);
 				}
 				
 				String startTimeIndeterminatePosition = rs.getString(8);
-				if (startTimeIndeterminatePosition != null) {
+				if (!rs.wasNull()) {
 					startTime.setIndeterminatePosition(TimeIndeterminateValueType.fromValue(startTimeIndeterminatePosition));
 				}
 				dynamizer.setStartTime(startTime);
 				
 				GMLTimePosition endTime = new GMLTimePosition();
 				String endTimeValue = rs.getString(9);
-				if (endTimeValue != null) {
+				if (!rs.wasNull()) {
 					endTime.setValue(endTimeValue);
 				}
 				
 				String endTimeFrame = rs.getString(10);
-				if (endTimeFrame != null) {
+				if (!rs.wasNull()) {
 					endTime.setFrame(endTimeFrame);
 				}
 				
 				String endTimeCalendarEraName = rs.getString(11);
-				if (endTimeCalendarEraName != null) {
+				if (!rs.wasNull()) {
 					endTime.setCalendarEraName(endTimeCalendarEraName);
 				}
 				
 				String endTimeIndeterminatePosition = rs.getString(12);
-				if (endTimeIndeterminatePosition != null) {
+				if (!rs.wasNull()) {
 					endTime.setIndeterminatePosition(TimeIndeterminateValueType.fromValue(endTimeIndeterminatePosition));
 				}
 				

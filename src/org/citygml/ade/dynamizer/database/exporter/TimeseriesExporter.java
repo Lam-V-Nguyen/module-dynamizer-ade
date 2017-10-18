@@ -13,6 +13,7 @@ import org.citydb.modules.citygml.exporter.CityGMLExportException;
 import org.citygml.ade.dynamizer.database.schema.ADETables;
 import org.citygml.ade.dynamizer.database.schema.ObjectMapper;
 import org.citygml.ade.dynamizer.model.AtomicTimeseries;
+import org.citygml.ade.dynamizer.model.CompositeTimeseries;
 import org.citygml.ade.dynamizer.model.TimeseriesProperty;
 import org.citygml.ade.dynamizer.util.DynamizerUtil;
 import org.w3c.dom.Document;
@@ -23,8 +24,9 @@ public class TimeseriesExporter implements ADEExporter {
 	private ObjectMapper objectMapper;
 	private CityGMLExportHelper cityGMLExportHelper;
 	
-	public TimeseriesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws SQLException {
-		
+	private TimeseriesComponentExporter timeseriesComponentExporter;
+	
+	public TimeseriesExporter(Connection connection, CityGMLExportHelper helper, ExportManager manager) throws SQLException {		
 		StringBuilder stmt = new StringBuilder()
 				.append("select at.ID as AT_ID, ct.id as CT_ID, ")
 				.append("at.dynamicDataDR, at.dynamicDataTVP, at.observationData ")
@@ -49,9 +51,9 @@ public class TimeseriesExporter implements ADEExporter {
 				long atomicTimeseriesId = rs.getLong(1);
 				long compositeTimeseriesId = rs.getLong(2);
 				if (atomicTimeseriesId > 0) {
-					int objectClassId = objectMapper.getObjectClassId(AtomicTimeseries.class);
-					
+					int objectClassId = objectMapper.getObjectClassId(AtomicTimeseries.class);					
 					AtomicTimeseries atomicTimeseries = cityGMLExportHelper.createObjectStub(atomicTimeseriesId, objectClassId, AtomicTimeseries.class);
+					
 					if (atomicTimeseries == null) {
 						cityGMLExportHelper.logOrThrowErrorMessage("Failed to instantiate " + cityGMLExportHelper.getObjectSignature(objectClassId, atomicTimeseriesId) + " as AtomicTimeseries object.");
 						continue;
@@ -60,7 +62,7 @@ public class TimeseriesExporter implements ADEExporter {
 						Document document = null;
 						
 						String dynamicDataDR = rs.getString(3);
-						if (dynamicDataDR != null) {
+						if (!rs.wasNull()) {
 							try {
 								document = DynamizerUtil.convertStringToDocument(dynamicDataDR);	
 								atomicTimeseries.setDynamicDataDR(document.getDocumentElement());
@@ -70,7 +72,7 @@ public class TimeseriesExporter implements ADEExporter {
 						}
 						
 						String dynamicDataTVP = rs.getString(4);
-						if (dynamicDataTVP != null) {
+						if (!rs.wasNull()) {
 							try {
 								document = DynamizerUtil.convertStringToDocument(dynamicDataTVP);	
 								atomicTimeseries.setDynamicDataTVP(document.getDocumentElement());
@@ -80,7 +82,7 @@ public class TimeseriesExporter implements ADEExporter {
 						}
 
 						String observationData = rs.getString(5);
-						if (observationData != null) {
+						if (!rs.wasNull()) {
 							try {
 								document = DynamizerUtil.convertStringToDocument(observationData);	
 								atomicTimeseries.setObservationData(document.getDocumentElement());
@@ -95,7 +97,15 @@ public class TimeseriesExporter implements ADEExporter {
 					}
 				}
 				else if (compositeTimeseriesId > 0) {
-					// TODO
+					int objectClassId = objectMapper.getObjectClassId(CompositeTimeseries.class);					
+					CompositeTimeseries compositeTimeseries = cityGMLExportHelper.createObjectStub(compositeTimeseriesId, objectClassId, CompositeTimeseries.class);
+					
+					if (compositeTimeseries == null) {
+						cityGMLExportHelper.logOrThrowErrorMessage("Failed to instantiate " + cityGMLExportHelper.getObjectSignature(objectClassId, compositeTimeseriesId) + " as CompositeTimeseries object.");
+						continue;
+					}
+					
+					timeseriesComponentExporter.doExport(compositeTimeseries, compositeTimeseriesId);
 				}
 			}
 		}

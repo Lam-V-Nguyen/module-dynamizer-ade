@@ -33,26 +33,26 @@ public class SensorConnectionExporter implements ADEExporter {
 				SensorConnection sensorConnection = new SensorConnection();
 				
 				String gmlId = rs.getString(1);
-				if (gmlId != null) {
+				if (!rs.wasNull()) {
 					FeatureProperty<AbstractCityObject> property = new FeatureProperty<AbstractCityObject>();
 					property.setHref(gmlId);
 					sensorConnection.setSensorLocation(property);
 				}				
 
 				String sensorId = rs.getString(2);
-				if (sensorId != null)
+				if (!rs.wasNull())
 					sensorConnection.setSensorId(sensorId);
 				
 				String serviceType = rs.getString(3);
-				if (serviceType != null)
+				if (!rs.wasNull())
 					sensorConnection.setServiceType(serviceType);
 				
 				String linkToObservation = rs.getString(4);
-				if (linkToObservation != null)
+				if (!rs.wasNull())
 					sensorConnection.setLinkToObservation(linkToObservation);
 				
 				String linkToSensorML = rs.getString(5);
-				if (linkToSensorML != null)
+				if (!rs.wasNull())
 					sensorConnection.setLinkToSensorML(linkToSensorML);
 				
 				return new SensorConnectionProperty(sensorConnection);
