@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="src-imp-exp"/>
 	<classpathentry kind="src" path="src-gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/importer-exporter-vcs/lib/args4j/args4j-2.33.jar"/>
@@ -37,5 +36,6 @@
 	<classpathentry kind="lib" path="/importer-exporter-vcs/lib/tomcat-juli/tomcat-jdbc.jar"/>
 	<classpathentry kind="lib" path="/importer-exporter-vcs/lib/tomcat-juli/tomcat-juli.jar"/>
 	<classpathentry kind="lib" path="/importer-exporter-vcs/resources/jar"/>
+	<classpathentry kind="lib" path="/importer-exporter-vcs/virtualcityDATABASE-impexp-3.5/lib/virtualcityDATABASE-impexp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
