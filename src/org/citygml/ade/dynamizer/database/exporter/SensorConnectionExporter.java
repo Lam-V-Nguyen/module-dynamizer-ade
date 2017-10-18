@@ -21,7 +21,7 @@ public class SensorConnectionExporter implements ADEExporter {
 		StringBuilder stmt = new StringBuilder("select co.gmlid, sc.sensorID, sc.serviceType, sc.linkToObservation, sc.linkToSensorML from ")
 				.append(helper.getTableNameWithSchema(TableEnum.CITYOBJECT.getName())).append(" co, ")
 				.append(helper.getTableNameWithSchema(manager.getSchemaMapper().getTableName(ADETables.SENSORCONNECTION))).append(" sc ")
-				.append("where sc.id = ? and co.id = sc.id");
+				.append("where sc.id = ? and co.id = sc.sensorlocation_id");
 		ps = connection.prepareStatement(stmt.toString());
 	}
 
