@@ -40,7 +40,12 @@
 		<!-- copy schema-mapping file -->
 		<copy todir="${dir.dest}/schema-mapping">
 			<fileset dir="${dir.schema-mapping}" includes="**/*" />
-		</copy>		
+		</copy>	
+		
+		<!-- copy sql files -->
+		<copy todir="${dir.dest}/sql">
+			<fileset dir="${dir.sql}" includes="**/*" />
+		</copy>			
 		
 		<!-- copy services file -->
 		<copy todir="${dir.build.classes}/META-INF">
