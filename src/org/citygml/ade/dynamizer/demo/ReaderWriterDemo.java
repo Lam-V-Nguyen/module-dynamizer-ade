@@ -44,7 +44,7 @@ public class ReaderWriterDemo {
 		System.out.println("Reading the CityGML ADE dataset");
 
 		CityGMLInputFactory in = builder.createCityGMLInputFactory();
-		CityGMLReader reader = in.createCityGMLReader(new File("datasets/Dynamizer_AtomicTimeseries_DynamicDataTVP.gml"));
+		CityGMLReader reader = in.createCityGMLReader(new File("datasets/AtomicTimeseries_DynamicDataTVP.gml"));
 
 		// unmarshal dataset into a CityModel
 		CityModel cityModel = (CityModel)reader.nextFeature();
